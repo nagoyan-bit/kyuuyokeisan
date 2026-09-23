@@ -8,207 +8,272 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  margin:0;
-  background:#f5f7fb;
-  color:#111827;
+  margin:0;background:#f4f6f9;color:#111827;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",sans-serif;
   -webkit-tap-highlight-color:transparent
 }
-main{max-width:850px;margin:auto;padding:18px 14px 40px}
-h1{margin:0 0 6px;font-size:26px}
-.sub{color:#6b7280;font-size:14px;margin:0 0 16px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.card,.panel{background:#fff;border:1px solid #e5e7eb;border-radius:16px}
-.card{padding:15px}
-.panel{padding:16px;margin-top:14px}
-.label{color:#6b7280;font-size:13px}
-.value{font-size:23px;font-weight:800;margin-top:5px}
+main{max-width:920px;margin:auto;padding:18px 14px 44px}
+h1{margin:0 0 5px;font-size:27px}
+.sub{margin:0 0 16px;color:#6b7280;font-size:14px}
+.panel{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:16px;margin-top:14px}
 h2{font-size:17px;margin:0 0 12px}
+
+/* main total */
+.hero{
+  background:#111827;color:#fff;border-radius:18px;padding:20px;
+  margin-bottom:12px
+}
+.hero-label{font-size:14px;opacity:.72}
+.hero-value{
+  font-size:38px;font-weight:850;letter-spacing:-1px;
+  margin-top:4px;line-height:1.1
+}
+.hero-sub{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:17px
+}
+.hero-mini{
+  background:rgba(255,255,255,.09);border-radius:12px;padding:11px
+}
+.hero-mini-label{font-size:12px;opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hero-mini-value{font-size:19px;font-weight:800;margin-top:3px}
+
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.status-card{
+  background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:14px
+}
+.status-card .label{font-size:13px;color:#6b7280}
+.status-card .value{font-size:23px;font-weight:800;margin-top:4px}
+
 input{
-  display:block;
-  width:100%;
-  min-width:0;
-  min-height:48px;
-  border:1px solid #d1d5db;
-  border-radius:10px;
-  padding:10px 12px;
-  font-size:16px;
-  line-height:1.2;
-  background:#fff;
-  color:#111827;
-  -webkit-appearance:none;
-  appearance:none;
-  touch-action:manipulation
+  display:block;width:100%;min-width:0;min-height:47px;
+  border:1px solid #d1d5db;border-radius:10px;padding:10px 11px;
+  font-size:16px;line-height:1.2;background:#fff;color:#111827;
+  -webkit-appearance:none;appearance:none
 }
 input:focus{outline:3px solid #dbeafe;border-color:#2563eb}
-.limit{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center}
-.months{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.names{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.name-box label{display:block;font-size:13px;color:#6b7280;margin-bottom:5px}
+.limit{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px}
+
+/* month cards */
+.months{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .month{
-  border:1px solid #e5e7eb;
-  border-radius:12px;
-  padding:10px;
+  border:1px solid #dde2e8;border-radius:14px;padding:13px;
   background:#fff
 }
-.month-title{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  align-items:center;
-  margin-bottom:7px
+.month-heading{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding-bottom:9px;border-bottom:1px solid #eef0f3
 }
-.month-name{font-size:14px;font-weight:700}
-.month-yen{font-size:13px;color:#6b7280}
-.salary-input{
-  text-align:right;
-  font-variant-numeric:tabular-nums;
-  background:#fff
+.month-title{font-size:17px;font-weight:850}
+.job-row{margin-top:11px}
+.job-label{
+  font-size:13px;font-weight:650;color:#4b5563;margin-bottom:5px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
+.salary-wrap{display:grid;grid-template-columns:auto 1fr;gap:6px;align-items:center}
+.salary-wrap span{color:#6b7280}
+.salary-input{text-align:right;font-weight:650;font-variant-numeric:tabular-nums}
+.month-total-box{
+  margin-top:12px;border-radius:11px;background:#eff6ff;
+  padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px
+}
+.month-total-label{font-size:12px;color:#4b5563}
+.month-total-value{font-size:20px;font-weight:850;color:#1d4ed8;white-space:nowrap}
+
 .muted{color:#6b7280;font-size:13px}
 .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:14px}
-.track{height:12px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:8px}
-.bar{height:100%;background:#2563eb;width:0}
+.track{height:13px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:9px}
+.bar{height:100%;background:#2563eb;width:0;transition:width .2s}
+.message{margin-top:9px;color:#6b7280;font-size:13px}
+
+/* pie */
 .chart{display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:center}
 .donut{width:210px;max-width:100%;aspect-ratio:1;margin:auto;position:relative}
 canvas{width:100%;height:100%;display:block}
 .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
-.center small{color:#6b7280}
-.center strong{font-size:22px}
+.center small{color:#6b7280}.center strong{font-size:22px}
 .legend{display:grid;gap:10px}
 .row{display:grid;grid-template-columns:12px 1fr auto;gap:8px;align-items:center;font-size:14px}
-.dot{width:12px;height:12px;border-radius:50%}
-.a{background:#2563eb}.b{background:#93c5fd}
+.dot{width:12px;height:12px;border-radius:50%}.a{background:#2563eb}.b{background:#93c5fd}
+
 button{
-  min-height:46px;
-  border:1px solid #d1d5db;
-  border-radius:10px;
-  background:#fff;
-  padding:0 14px;
-  font-size:16px;
-  font-weight:700;
-  touch-action:manipulation
+  min-height:46px;border:1px solid #d1d5db;border-radius:10px;
+  background:#fff;padding:0 14px;font-size:16px;font-weight:700
 }
 .actions{display:flex;justify-content:flex-end}
+
 @media(max-width:640px){
-  main{padding:16px 12px 36px}
-  .grid,.months,.chart{grid-template-columns:1fr}
-  .value{font-size:21px}
+  main{padding:15px 11px 36px}
+  h1{font-size:24px}
+  .hero{padding:18px}
+  .hero-value{font-size:35px}
+  .hero-sub,.status-grid,.names,.months,.chart{grid-template-columns:1fr}
+  .month{padding:12px}
   .donut{width:190px}
-  .panel{padding:14px}
-  .month{padding:11px}
 }
 </style>
 </head>
 <body>
 <main>
 <h1>給料管理</h1>
-<p class="sub">月ごとの給料を入力すると、年間収入と収入ラインまでの残りを自動計算します。</p>
+<p class="sub">2つのバイト先の給料をまとめて管理</p>
 
-<section class="grid">
-<div class="card"><div class="label">年間収入</div><div class="value" id="total">¥0</div></div>
-<div class="card"><div class="label">ラインまで残り</div><div class="value" id="left">¥1,300,000</div></div>
-<div class="card"><div class="label">進捗</div><div class="value" id="pct">0%</div></div>
+<section class="hero">
+  <div class="hero-label">今年の給料 合計</div>
+  <div class="hero-value" id="total">¥0</div>
+  <div class="hero-sub">
+    <div class="hero-mini">
+      <div class="hero-mini-label" id="job1HeroName">バイト先1</div>
+      <div class="hero-mini-value" id="job1Total">¥0</div>
+    </div>
+    <div class="hero-mini">
+      <div class="hero-mini-label" id="job2HeroName">バイト先2</div>
+      <div class="hero-mini-value" id="job2Total">¥0</div>
+    </div>
+  </div>
+</section>
+
+<section class="status-grid">
+  <div class="status-card">
+    <div class="label">年間ラインまで残り</div>
+    <div class="value" id="left">¥1,300,000</div>
+  </div>
+  <div class="status-card">
+    <div class="label">年間ライン進捗</div>
+    <div class="value" id="pct">0%</div>
+  </div>
+</section>
+
+<section class="panel">
+<h2>バイト先の名前</h2>
+<div class="names">
+  <div class="name-box">
+    <label for="job1Name">バイト先1</label>
+    <input id="job1Name" type="text" value="バイト先1" autocomplete="off">
+  </div>
+  <div class="name-box">
+    <label for="job2Name">バイト先2</label>
+    <input id="job2Name" type="text" value="バイト先2" autocomplete="off">
+  </div>
+</div>
 </section>
 
 <section class="panel">
 <h2>年間収入ライン</h2>
-<div class="limit"><span>¥</span><input id="limit" type="text" inputmode="numeric" pattern="[0-9]*" value="1300000" aria-label="年間収入ライン"></div>
+<div class="limit">
+  <span>¥</span>
+  <input id="limit" type="text" inputmode="numeric" pattern="[0-9]*" value="1300000" aria-label="年間収入ライン">
+</div>
 </section>
 
 <section class="panel">
 <h2>月ごとの給料</h2>
 <div class="months" id="months"></div>
-<p class="muted">入力内容はこの端末・このブラウザに自動保存されます。</p>
+<p class="muted">入力内容とバイト先名は、この端末・このブラウザに自動保存されます。</p>
 </section>
 
 <section class="panel">
 <h2>年間進捗</h2>
-<div class="top"><span>収入ラインへの進捗</span><span id="barLabel">¥0 / ¥1,300,000</span></div>
+<div class="top"><span>収入ラインへの進捗</span><strong id="barLabel">¥0 / ¥1,300,000</strong></div>
 <div class="track"><div class="bar" id="bar"></div></div>
-<p class="muted" id="message">給料を入力すると自動計算されます。</p>
+<div class="message" id="message">給料を入力すると自動計算されます。</div>
 </section>
 
 <section class="panel">
 <h2>収入ラインの内訳</h2>
 <div class="chart">
-<div class="donut"><canvas id="chart"></canvas><div class="center"><small>進捗</small><strong id="donutPct">0%</strong></div></div>
-<div class="legend">
-<div class="row"><span class="dot a"></span><span>現在までの収入</span><strong id="earned">¥0</strong></div>
-<div class="row"><span class="dot b"></span><span>ラインまで残り</span><strong id="remain">¥1,300,000</strong></div>
-</div>
+  <div class="donut">
+    <canvas id="chart"></canvas>
+    <div class="center"><small>進捗</small><strong id="donutPct">0%</strong></div>
+  </div>
+  <div class="legend">
+    <div class="row"><span class="dot a"></span><span>現在までの収入</span><strong id="earned">¥0</strong></div>
+    <div class="row"><span class="dot b"></span><span>ラインまで残り</span><strong id="remain">¥1,300,000</strong></div>
+  </div>
 </div>
 </section>
 
 <section class="panel"><div class="actions"><button id="reset" type="button">すべてリセット</button></div></section>
+
 </main>
 
 <script>
 (()=>{
-const KEY="salary-manager-v2";
+const KEY="salary-manager-two-jobs-v2";
 const months=document.getElementById("months");
+const job1Name=document.getElementById("job1Name");
+const job2Name=document.getElementById("job2Name");
 
 for(let m=1;m<=12;m++){
   const box=document.createElement("div");
   box.className="month";
   box.innerHTML=`
-    <div class="month-title">
-      <span class="month-name">${m}月</span>
-      <span class="month-yen">円</span>
+    <div class="month-heading">
+      <span class="month-title">${m}月</span>
     </div>
-    <input
-      class="salary-input"
-      data-m="${m}"
-      type="text"
-      inputmode="numeric"
-      pattern="[0-9]*"
-      autocomplete="off"
-      enterkeyhint="done"
-      placeholder="0"
-      aria-label="${m}月の給料"
-    >`;
+
+    <div class="job-row">
+      <div class="job-label job1-label">バイト先1</div>
+      <div class="salary-wrap">
+        <span>¥</span>
+        <input class="salary-input" data-job="1" data-month="${m}"
+          type="text" inputmode="numeric" pattern="[0-9]*"
+          autocomplete="off" placeholder="0" aria-label="${m}月 バイト先1の給料">
+      </div>
+    </div>
+
+    <div class="job-row">
+      <div class="job-label job2-label">バイト先2</div>
+      <div class="salary-wrap">
+        <span>¥</span>
+        <input class="salary-input" data-job="2" data-month="${m}"
+          type="text" inputmode="numeric" pattern="[0-9]*"
+          autocomplete="off" placeholder="0" aria-label="${m}月 バイト先2の給料">
+      </div>
+    </div>
+
+    <div class="month-total-box">
+      <span class="month-total-label">${m}月 合計</span>
+      <span class="month-total-value" id="monthTotal${m}">¥0</span>
+    </div>`;
   months.appendChild(box);
 }
 
-const ins=[...document.querySelectorAll("[data-m]")];
+const inputs=[...document.querySelectorAll(".salary-input")];
 const lim=document.getElementById("limit");
 const yen=new Intl.NumberFormat("ja-JP",{style:"currency",currency:"JPY",maximumFractionDigits:0});
 
-function clean(v){
-  return String(v ?? "").replace(/[^\d]/g,"");
-}
-function num(v){
-  const n=Number(clean(v));
-  return Number.isFinite(n)&&n>0?n:0;
-}
-function normalizeInput(el){
-  const cleaned=clean(el.value);
-  if(el.value!==cleaned) el.value=cleaned;
+function clean(v){return String(v??"").replace(/[^\d]/g,"")}
+function num(v){const n=Number(clean(v));return Number.isFinite(n)&&n>0?n:0}
+function normalize(el){const c=clean(el.value);if(el.value!==c)el.value=c}
+function currentName(el,fallback){const v=String(el.value||"").trim();return v||fallback}
+
+function updateLabels(){
+  const n1=currentName(job1Name,"バイト先1");
+  const n2=currentName(job2Name,"バイト先2");
+  document.querySelectorAll(".job1-label").forEach(el=>el.textContent=n1);
+  document.querySelectorAll(".job2-label").forEach(el=>el.textContent=n2);
+  document.getElementById("job1HeroName").textContent=n1;
+  document.getElementById("job2HeroName").textContent=n2;
 }
 
 function draw(total,limit){
-  const c=document.getElementById("chart");
-  const ctx=c.getContext("2d");
-  const size=c.clientWidth||200;
-  const dpr=Math.max(1,window.devicePixelRatio||1);
-  c.width=Math.round(size*dpr);
-  c.height=Math.round(size*dpr);
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-  ctx.clearRect(0,0,size,size);
+  const c=document.getElementById("chart"),ctx=c.getContext("2d");
+  const size=c.clientWidth||200,dpr=Math.max(1,window.devicePixelRatio||1);
+  c.width=Math.round(size*dpr);c.height=Math.round(size*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,size,size);
 
   const r=size*.38,w=size*.12,ctr=size/2,start=-Math.PI/2;
-  const shown=Math.min(total,limit);
-  const angle=(shown/limit)*Math.PI*2;
+  const shown=Math.min(total,limit),angle=(shown/limit)*Math.PI*2;
 
   ctx.lineWidth=w;
   ctx.strokeStyle="#93c5fd";
-  ctx.beginPath();
-  ctx.arc(ctr,ctr,r,0,Math.PI*2);
-  ctx.stroke();
+  ctx.beginPath();ctx.arc(ctr,ctr,r,0,Math.PI*2);ctx.stroke();
 
   if(shown>0){
     ctx.strokeStyle="#2563eb";
-    ctx.beginPath();
-    ctx.arc(ctr,ctr,r,start,start+angle);
-    ctx.stroke();
+    ctx.beginPath();ctx.arc(ctr,ctr,r,start,start+angle);ctx.stroke();
   }
 }
 
@@ -216,67 +281,92 @@ function save(){
   try{
     localStorage.setItem(KEY,JSON.stringify({
       limit:num(lim.value)||1300000,
-      months:ins.map(i=>num(i.value))
+      job1Name:job1Name.value,
+      job2Name:job2Name.value,
+      values:inputs.map(i=>num(i.value))
     }));
   }catch(e){}
 }
 
 function load(){
   try{
-    const d=JSON.parse(localStorage.getItem(KEY)||"null");
+    /* backward compatibility with previous version */
+    let raw=localStorage.getItem(KEY);
+    if(!raw) raw=localStorage.getItem("salary-manager-two-jobs-v1");
+    const d=JSON.parse(raw||"null");
     if(!d)return;
     if(d.limit)lim.value=String(d.limit);
-    if(Array.isArray(d.months)){
-      ins.forEach((i,k)=>i.value=d.months[k] ? String(d.months[k]) : "");
-    }
+    if(typeof d.job1Name==="string")job1Name.value=d.job1Name;
+    if(typeof d.job2Name==="string")job2Name.value=d.job2Name;
+    if(Array.isArray(d.values))inputs.forEach((i,k)=>i.value=d.values[k]?String(d.values[k]):"");
   }catch(e){}
 }
 
 function update(){
-  normalizeInput(lim);
-  ins.forEach(normalizeInput);
+  normalize(lim);
+  inputs.forEach(normalize);
+  updateLabels();
 
-  const total=ins.reduce((s,i)=>s+num(i.value),0);
+  let job1Total=0,job2Total=0;
+
+  for(let m=1;m<=12;m++){
+    const i1=document.querySelector(`[data-job="1"][data-month="${m}"]`);
+    const i2=document.querySelector(`[data-job="2"][data-month="${m}"]`);
+    const v1=num(i1.value),v2=num(i2.value);
+
+    job1Total+=v1;
+    job2Total+=v2;
+
+    document.getElementById(`monthTotal${m}`).textContent=yen.format(v1+v2);
+  }
+
+  const total=job1Total+job2Total;
   const limit=Math.max(num(lim.value),1);
   const left=Math.max(limit-total,0);
   const pct=total/limit*100;
 
   document.getElementById("total").textContent=yen.format(total);
+  document.getElementById("job1Total").textContent=yen.format(job1Total);
+  document.getElementById("job2Total").textContent=yen.format(job2Total);
+
   document.getElementById("left").textContent=total>=limit?"到達済み":yen.format(left);
   document.getElementById("pct").textContent=Math.round(pct)+"%";
   document.getElementById("bar").style.width=Math.min(pct,100)+"%";
   document.getElementById("barLabel").textContent=`${yen.format(total)} / ${yen.format(limit)}`;
+
   document.getElementById("donutPct").textContent=Math.round(pct)+"%";
   document.getElementById("earned").textContent=yen.format(total);
   document.getElementById("remain").textContent=yen.format(left);
+
   document.getElementById("message").textContent=
-    total===0
-      ?"給料を入力すると自動計算されます。"
-      :total<limit
-        ?`年間収入ラインまであと ${yen.format(left)} です。`
-        :`設定ラインを ${yen.format(total-limit)} 上回っています。`;
+    total===0 ? "給料を入力すると自動計算されます。" :
+    total<limit ? `年間収入ラインまであと ${yen.format(left)} です。` :
+    `設定ラインを ${yen.format(total-limit)} 上回っています。`;
 
   draw(total,limit);
   save();
 }
 
-ins.forEach(i=>{
+inputs.forEach(i=>{
   i.addEventListener("input",update,{passive:true});
   i.addEventListener("change",update);
 });
 lim.addEventListener("input",update,{passive:true});
-lim.addEventListener("change",update);
+job1Name.addEventListener("input",update);
+job2Name.addEventListener("input",update);
 
 document.getElementById("reset").addEventListener("click",()=>{
   if(confirm("入力内容をすべてリセットしますか？")){
-    ins.forEach(i=>i.value="");
+    inputs.forEach(i=>i.value="");
     lim.value="1300000";
+    job1Name.value="バイト先1";
+    job2Name.value="バイト先2";
     update();
   }
 });
 
 window.addEventListener("resize",()=>draw(
-  ins.reduce((s,i)=>s+num(i.value),0),
+  inputs.reduce((s,i)=>s+num(i.value),0),
   Math.max(num(lim.value),1)
 ));
 
