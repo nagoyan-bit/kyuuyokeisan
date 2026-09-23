@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
+<title>給料管理</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:#f5f7fb;
+  color:#111827;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",sans-serif;
+  -webkit-tap-highlight-color:transparent
+}
+main{max-width:850px;margin:auto;padding:18px 14px 40px}
+h1{margin:0 0 6px;font-size:26px}
+.sub{color:#6b7280;font-size:14px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.card,.panel{background:#fff;border:1px solid #e5e7eb;border-radius:16px}
+.card{padding:15px}
+.panel{padding:16px;margin-top:14px}
+.label{color:#6b7280;font-size:13px}
+.value{font-size:23px;font-weight:800;margin-top:5px}
+h2{font-size:17px;margin:0 0 12px}
+input{
+  display:block;
+  width:100%;
+  min-width:0;
+  min-height:48px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:16px;
+  line-height:1.2;
+  background:#fff;
+  color:#111827;
+  -webkit-appearance:none;
+  appearance:none;
+  touch-action:manipulation
+}
+input:focus{outline:3px solid #dbeafe;border-color:#2563eb}
+.limit{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center}
+.months{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.month{
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:10px;
+  background:#fff
+}
+.month-title{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+  margin-bottom:7px
+}
+.month-name{font-size:14px;font-weight:700}
+.month-yen{font-size:13px;color:#6b7280}
+.salary-input{
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  background:#fff
+}
+.muted{color:#6b7280;font-size:13px}
+.top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:14px}
+.track{height:12px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:8px}
+.bar{height:100%;background:#2563eb;width:0}
+.chart{display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:center}
+.donut{width:210px;max-width:100%;aspect-ratio:1;margin:auto;position:relative}
+canvas{width:100%;height:100%;display:block}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.center small{color:#6b7280}
+.center strong{font-size:22px}
+.legend{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:12px 1fr auto;gap:8px;align-items:center;font-size:14px}
+.dot{width:12px;height:12px;border-radius:50%}
+.a{background:#2563eb}.b{background:#93c5fd}
+button{
+  min-height:46px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  background:#fff;
+  padding:0 14px;
+  font-size:16px;
+  font-weight:700;
+  touch-action:manipulation
+}
+.actions{display:flex;justify-content:flex-end}
+@media(max-width:640px){
+  main{padding:16px 12px 36px}
+  .grid,.months,.chart{grid-template-columns:1fr}
+  .value{font-size:21px}
+  .donut{width:190px}
+  .panel{padding:14px}
+  .month{padding:11px}
+}
+</style>
+</head>
+<body>
+<main>
+<h1>給料管理</h1>
+<p class="sub">月ごとの給料を入力すると、年間収入と収入ラインまでの残りを自動計算します。</p>
+
+<section class="grid">
+<div class="card"><div class="label">年間収入</div><div class="value" id="total">¥0</div></div>
+<div class="card"><div class="label">ラインまで残り</div><div class="value" id="left">¥1,300,000</div></div>
+<div class="card"><div class="label">進捗</div><div class="value" id="pct">0%</div></div>
+</section>
+
+<section class="panel">
+<h2>年間収入ライン</h2>
+<div class="limit"><span>¥</span><input id="limit" type="text" inputmode="numeric" pattern="[0-9]*" value="1300000" aria-label="年間収入ライン"></div>
+</section>
+
+<section class="panel">
+<h2>月ごとの給料</h2>
+<div class="months" id="months"></div>
+<p class="muted">入力内容はこの端末・このブラウザに自動保存されます。</p>
+</section>
+
+<section class="panel">
+<h2>年間進捗</h2>
+<div class="top"><span>収入ラインへの進捗</span><span id="barLabel">¥0 / ¥1,300,000</span></div>
+<div class="track"><div class="bar" id="bar"></div></div>
+<p class="muted" id="message">給料を入力すると自動計算されます。</p>
+</section>
+
+<section class="panel">
+<h2>収入ラインの内訳</h2>
+<div class="chart">
+<div class="donut"><canvas id="chart"></canvas><div class="center"><small>進捗</small><strong id="donutPct">0%</strong></div></div>
+<div class="legend">
+<div class="row"><span class="dot a"></span><span>現在までの収入</span><strong id="earned">¥0</strong></div>
+<div class="row"><span class="dot b"></span><span>ラインまで残り</span><strong id="remain">¥1,300,000</strong></div>
+</div>
+</div>
+</section>
+
+<section class="panel"><div class="actions"><button id="reset" type="button">すべてリセット</button></div></section>
+</main>
+
+<script>
+(()=>{
+const KEY="salary-manager-v2";
+const months=document.getElementById("months");
+
+for(let m=1;m<=12;m++){
+  const box=document.createElement("div");
+  box.className="month";
+  box.innerHTML=`
+    <div class="month-title">
+      <span class="month-name">${m}月</span>
+      <span class="month-yen">円</span>
+    </div>
+    <input
+      class="salary-input"
+      data-m="${m}"
+      type="text"
+      inputmode="numeric"
+      pattern="[0-9]*"
+      autocomplete="off"
+      enterkeyhint="done"
+      placeholder="0"
+      aria-label="${m}月の給料"
+    >`;
+  months.appendChild(box);
+}
+
+const ins=[...document.querySelectorAll("[data-m]")];
+const lim=document.getElementById("limit");
+const yen=new Intl.NumberFormat("ja-JP",{style:"currency",currency:"JPY",maximumFractionDigits:0});
+
+function clean(v){
+  return String(v ?? "").replace(/[^\d]/g,"");
+}
+function num(v){
+  const n=Number(clean(v));
+  return Number.isFinite(n)&&n>0?n:0;
+}
+function normalizeInput(el){
+  const cleaned=clean(el.value);
+  if(el.value!==cleaned) el.value=cleaned;
+}
+
+function draw(total,limit){
+  const c=document.getElementById("chart");
+  const ctx=c.getContext("2d");
+  const size=c.clientWidth||200;
+  const dpr=Math.max(1,window.devicePixelRatio||1);
+  c.width=Math.round(size*dpr);
+  c.height=Math.round(size*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,size,size);
+
+  const r=size*.38,w=size*.12,ctr=size/2,start=-Math.PI/2;
+  const shown=Math.min(total,limit);
+  const angle=(shown/limit)*Math.PI*2;
+
+  ctx.lineWidth=w;
+  ctx.strokeStyle="#93c5fd";
+  ctx.beginPath();
+  ctx.arc(ctr,ctr,r,0,Math.PI*2);
+  ctx.stroke();
+
+  if(shown>0){
+    ctx.strokeStyle="#2563eb";
+    ctx.beginPath();
+    ctx.arc(ctr,ctr,r,start,start+angle);
+    ctx.stroke();
+  }
+}
+
+function save(){
+  try{
+    localStorage.setItem(KEY,JSON.stringify({
+      limit:num(lim.value)||1300000,
+      months:ins.map(i=>num(i.value))
+    }));
+  }catch(e){}
+}
+
+function load(){
+  try{
+    const d=JSON.parse(localStorage.getItem(KEY)||"null");
+    if(!d)return;
+    if(d.limit)lim.value=String(d.limit);
+    if(Array.isArray(d.months)){
+      ins.forEach((i,k)=>i.value=d.months[k] ? String(d.months[k]) : "");
+    }
+  }catch(e){}
+}
+
+function update(){
+  normalizeInput(lim);
+  ins.forEach(normalizeInput);
+
+  const total=ins.reduce((s,i)=>s+num(i.value),0);
+  const limit=Math.max(num(lim.value),1);
+  const left=Math.max(limit-total,0);
+  const pct=total/limit*100;
+
+  document.getElementById("total").textContent=yen.format(total);
+  document.getElementById("left").textContent=total>=limit?"到達済み":yen.format(left);
+  document.getElementById("pct").textContent=Math.round(pct)+"%";
+  document.getElementById("bar").style.width=Math.min(pct,100)+"%";
+  document.getElementById("barLabel").textContent=`${yen.format(total)} / ${yen.format(limit)}`;
+  document.getElementById("donutPct").textContent=Math.round(pct)+"%";
+  document.getElementById("earned").textContent=yen.format(total);
+  document.getElementById("remain").textContent=yen.format(left);
+  document.getElementById("message").textContent=
+    total===0
+      ?"給料を入力すると自動計算されます。"
+      :total<limit
+        ?`年間収入ラインまであと ${yen.format(left)} です。`
+        :`設定ラインを ${yen.format(total-limit)} 上回っています。`;
+
+  draw(total,limit);
+  save();
+}
+
+ins.forEach(i=>{
+  i.addEventListener("input",update,{passive:true});
+  i.addEventListener("change",update);
+});
+lim.addEventListener("input",update,{passive:true});
+lim.addEventListener("change",update);
+
+document.getElementById("reset").addEventListener("click",()=>{
+  if(confirm("入力内容をすべてリセットしますか？")){
+    ins.forEach(i=>i.value="");
+    lim.value="1300000";
+    update();
+  }
+});
+
+window.addEventListener("resize",()=>draw(
+  ins.reduce((s,i)=>s+num(i.value),0),
+  Math.max(num(lim.value),1)
+));
+
+load();
+update();
+})();
+</script>
+</body>
+</html>
